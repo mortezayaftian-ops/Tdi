@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://www.sunsirs.com/commodity-price/petrochemicals.html"
+URL = "https://www.sunsirs.com/"
 
 headers = {
     "User-Agent": "Mozilla/5.0"
@@ -13,12 +13,18 @@ def get_tdi():
 
     soup = BeautifulSoup(r.text, "html.parser")
 
-    text = soup.get_text("\n")
+    text = soup.get_text(" ", strip=True).upper()
 
-    for line in text.splitlines():
+    if "TDI" in text:
+        print("✅ TDI پیدا شد")
+    else:
+        print("❌ TDI پیدا نشد")
+
+    # برای تست، چند خط شامل TDI را چاپ می‌کنیم
+    for line in soup.get_text("\n").split("\n"):
         if "TDI" in line.upper():
             print(line.strip())
 
 if __name__ == "__main__":
-    print("شروع جستجوی TDI ...")
+    print("در حال جستجوی TDI ...")
     get_tdi()
